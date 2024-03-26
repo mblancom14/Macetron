@@ -1,17 +1,17 @@
-#ifndef OLED_H
-#define OLED_H
+#ifndef DHT22S_H
+#define DHT22S_H
 
 /***************************************************************************************************
 *                                        IMPORTED MODULES                                          *
 ***************************************************************************************************/
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
+#include "DHT.h"
 #include "..\include\config\mainConfig.h"
+
 /***************************************************************************************************
 *                                     DEFINITIONS AND MACROS                                       *
 ***************************************************************************************************/
+/* Time between connection and desconnection of the sensor to restart it (ms) */
+#define DHT22_TIME_FOR_RESET            50
 
 /***************************************************************************************************
 *                                    TYPEDEFS AND STRUCTURES                                       *
@@ -24,15 +24,30 @@
 /***************************************************************************************************
 *                                       CLASS DECLARATIONS                                         *
 ***************************************************************************************************/
-class OLED : public Adafruit_SSD1306 {
+//TODO herencia del DHT y reset del sensor si no lee bien
+/*!
+ *  \class      SMS
+ *
+ *  \brief      Class that stores state and functions of the Soil Moisture Sensor
+ */
+class DHT22S : public DHT {
 public:
-    OLED (uint8_t width, uint8_t height) : Adafruit_SSD1306 (width, height, &Wire, OLED_RESET) {}
+/* TODO Se puede hacer el constructor en otro fichero */
+    DHT22S (uint8_t resetPin) : DHT (resetPin, DHT22) {
+        _resetPin = resetPin;
+        pinMode (PIN_GND_DHT22, OUTPUT);
+        digitalWrite (PIN_GND_DHT22, LOW);
+        begin ();
+    }
 
-    void startConfig (void);
-    void displayInit(void);
-    void displayMoistureTemperatureHumidiy (float temperature, float humidity);
+    float getHumidity (void);
+    float getTemperature (void);
+
 private:
+    void _resetSensor (void);
 
+    uint8_t _resetPin;
+    uint16_t _humidity, _temperature;
 };
 
-#endif /* OLED_H */
+#endif /* DHT22S_H */

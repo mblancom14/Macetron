@@ -2,7 +2,6 @@
 *                                        IMPORTED MODULES                                          *
 ***************************************************************************************************/
 #include "..\include\peripherals\OLED.h"
-#include "..\include\config\mainConfig.h"
 
 /***************************************************************************************************
 *                                     DEFINITIONS AND MACROS                                       *
@@ -15,15 +14,6 @@
 /***************************************************************************************************
 *                                          FUNCTIONS                                               *
 ***************************************************************************************************/
-/* Class constructor for the OLED screen */
-OLED::OLED (uint8_t width, uint8_t height) : Adafruit_SSD1306 (width, height, &Wire, OLED_RESET) {
-    // Start OLED screen with 0x3C address
-    // if (!Adafruit_SSD1306::begin(SSD1306_SWITCHCAPVCC, DIR_I2C_OLED))
-    // {
-    //     Serial.println("[OLED] Screen not detected");
-    // }
-}
-
 /* Start configuration */
 void OLED::startConfig (void) {
     Adafruit_SSD1306::begin(SSD1306_SWITCHCAPVCC, DIR_I2C_OLED);
@@ -31,25 +21,63 @@ void OLED::startConfig (void) {
     Adafruit_SSD1306::clearDisplay ();
 }
 
-/*  */
-void OLED::displayMoistureTemperatureHumidiy (void) {
+/* Display in the screen the Moisture %, the temperature ºC and humidity % */
+void OLED::displayInit (void) {  //TODO Add Moisture
+    clearDisplay();
+
+    setTextSize(5);
+    setCursor(10, 10);
+    print("M");
+
+    setTextSize(2);
+    setCursor(37, 27);
+    print("acetron");
     
-    /* Se imprime el valor de humedad */
-    setTextSize (2);
-    setCursor (2, 2);
-
-    print ("Soil:");
-    print ("%");
-    setCursor (98, 10);
-    setTextSize (1);
-    print ("(");
-    print (")\n");
-
-    print ("DHT Temperature:");
-    print ("\n");
-    print ("DHT Humidity:   ");
-    print ("\n");
+    drawFastHLine(34, 43, 90, WHITE);
+    drawFastHLine(34, 44, 90, WHITE);
 
     display();
 }
 
+/* Display in the screen the Moisture %, the temperature ºC and humidity % */
+void OLED::displayMoistureTemperatureHumidiy (float temperature, float humidity) {  //TODO Add Moisture
+    clearDisplay();
+
+    /* Print Soil Moisture */
+    setTextSize(2);
+    setCursor(0, 2);
+    print("Soil:");
+    print("%");
+    setCursor(98, 10);
+    setTextSize(1);
+    print("(");
+    print(")\n");
+
+    /* Print temperature */
+    print("Temperature: ");
+    if (temperature == TEMPERATURE_ERROR)
+    {
+        print("Error");
+    }
+    else
+    {
+        print(temperature);
+        print(" C");
+    }
+    print("\n");
+
+    /* Print humidity */
+    print("Humidity:    ");
+    if (humidity == HUMIDITY_ERROR)
+    {
+        print("Error");
+    }
+    else
+    {
+        print(humidity);
+        print(" %");
+    }
+    print("\n");
+
+    display();
+}

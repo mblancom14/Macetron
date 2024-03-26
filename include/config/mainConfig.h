@@ -9,18 +9,17 @@
 /***************************************************************************************************
 *                                              PINOUT                                              *
 ***************************************************************************************************/
-// /************************** DHT22 Sensor *************************/
-// //TODO cambiar pine DHT
-// #define PIN_GND_DHT22               D0
-// #define PIN_DATA_DHT22              D3
-
 // /********************* Soil Moisture Sensor **********************/
 // #define PIN_DATA_SMS                A0
 // //TODO ampliable a hasta 8 sensores de humedad de sustrato? Necesario ADC de varios canales o arduino
 
 /********************** OLED Display (I2C) ***********************/
-#define PIN_SCL_OLED                D1
-#define PIN_SDA_OLED                D2
+#define PIN_SCL_OLED                A5
+#define PIN_SDA_OLED                A4
+
+/************************** DHT22 Sensor *************************/
+#define PIN_GND_DHT22               3
+#define PIN_DATA_DHT22              4
 
 // /************************* Water Pump ****************************/
 // #define PIN_WATER_PUMP              D4
@@ -51,12 +50,19 @@
 /* I2C Address */
 #define DIR_I2C_OLED                0x3C
 
+/* Error indicators */
+#define TEMPERATURE_ERROR           10000.0
+#define HUMIDITY_ERROR              10000.0
+
 /***************************************************************************************************
-*                                         OTHER PARAMETERS                                         *
+*                                       OTHER PARAMETERS                                         *
 ***************************************************************************************************/
 /********************************* STATE MACHINE ******************************/
-#define IDLE_STATE                      0
-#define FACE_STATE                      1
-#define DEBUG_STATE                     2
+#define IDLE_STATE                  0
+#define FACE_STATE                  1
+#define DEBUG_STATE                 2
+
+/************************************* DELAYS *********************************/
+#define DELAY_INIT_SCREEN           2000
 
 #endif /* MAIN_CONFIG_H */

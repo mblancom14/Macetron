@@ -6,6 +6,7 @@
 
 #include "..\include\peripherals\OLED.h"
 #include "..\include\config\mainConfig.h"
+#include "..\include\peripherals\DHT22s.h"
 #include "..\include\dataProcessing\stateMachine.h"
 
 /***************************************************************************************************
@@ -15,6 +16,7 @@
 /***************************************************************************************************
 *                                             GLOBAL                                               *
 ***************************************************************************************************/
+DHT22S sensorDHT (PIN_DATA_DHT22);
 OLED oled(OLED_WIDTH, OLED_HEIGHT);
 
 /***************************************************************************************************
@@ -40,6 +42,9 @@ void StateMachine::processStateMachine (void) {
         case IDLE_STATE:
             oled.startConfig ();
 
+            oled.displayInit();
+            delay(DELAY_INIT_SCREEN);
+
             // _updateState(FACE_STATE);    /* Change state to FACE_STATE */
             _updateState(DEBUG_STATE);   //TODO Debug (Usar el de arriba)
         break;
@@ -47,7 +52,8 @@ void StateMachine::processStateMachine (void) {
 
         break;
         case DEBUG_STATE:
-            oled.displayMoistureTemperatureHumidiy();
+            oled.displayMoistureTemperatureHumidiy(sensorDHT.getTemperature(), 
+                                                   sensorDHT.getHumidity());
         break;
         default:
             _updateState(IDLE_STATE);
