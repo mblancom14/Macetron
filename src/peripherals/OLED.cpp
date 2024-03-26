@@ -22,7 +22,7 @@ void OLED::startConfig (void) {
 }
 
 /* Display in the screen the Moisture %, the temperature ºC and humidity % */
-void OLED::displayInit (void) {  //TODO Add Moisture
+void OLED::displayInit (void) {
     clearDisplay();
 
     setTextSize(5);
@@ -40,18 +40,19 @@ void OLED::displayInit (void) {  //TODO Add Moisture
 }
 
 /* Display in the screen the Moisture %, the temperature ºC and humidity % */
-void OLED::displayMoistureTemperatureHumidiy (float temperature, float humidity) {  //TODO Add Moisture
+void OLED::displayMoistureTemperatureHumidity (uint16_t moisture, float temperature, 
+                                               float humidity) {
     clearDisplay();
 
     /* Print Soil Moisture */
     setTextSize(2);
     setCursor(0, 2);
-    print("Soil:");
+    print("Soil:  ");
+    print(moisture);
     print("%");
     setCursor(98, 10);
     setTextSize(1);
-    print("(");
-    print(")\n");
+    print("\n");
 
     /* Print temperature */
     print("Temperature: ");
@@ -77,6 +78,24 @@ void OLED::displayMoistureTemperatureHumidiy (float temperature, float humidity)
         print(humidity);
         print(" %");
     }
+    print("\n");
+
+    display();
+}
+
+/* TODO */
+void OLED::displayMoistureCalibration (uint16_t moisture, int analogRead) {
+    clearDisplay();
+
+    /* Print Soil Moisture */
+    setTextSize(2);
+    setCursor(0, 2);
+    print("Soil: ");
+    print(moisture);
+    print("%\n");
+    setTextSize(1);
+    print("AnalogRead: ");
+    print(analogRead);
     print("\n");
 
     display();

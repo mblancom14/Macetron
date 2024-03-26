@@ -7,11 +7,18 @@
 #include <Arduino.h>
 
 /***************************************************************************************************
+*                                            DEBUG MODE                                            *
+***************************************************************************************************/
+/* Uncomment only one of these */
+// #define NORMAL MODE
+// #define DEBUG_MODE
+#define CALIBRATION_MODE
+
+/***************************************************************************************************
 *                                              PINOUT                                              *
 ***************************************************************************************************/
-// /********************* Soil Moisture Sensor **********************/
-// #define PIN_DATA_SMS                A0
-// //TODO ampliable a hasta 8 sensores de humedad de sustrato? Necesario ADC de varios canales o arduino
+/********************* Soil Moisture Sensor **********************/
+#define PIN_DATA_SMS                A0
 
 /********************** OLED Display (I2C) ***********************/
 #define PIN_SCL_OLED                A5
@@ -20,10 +27,6 @@
 /************************** DHT22 Sensor *************************/
 #define PIN_GND_DHT22               3
 #define PIN_DATA_DHT22              4
-
-// /************************* Water Pump ****************************/
-// #define PIN_WATER_PUMP              D4
-// //TODO ampliable a hasta 8 bombas de agua?
 
 // /***************************** SD ********************************/
 // //TODO cambiar pines SD
@@ -35,11 +38,11 @@
 /***************************************************************************************************
 *                                     PARAMETER CONFIGURATION                                      *
 ***************************************************************************************************/
-// /****************************** SMS ******************************/
-// /* Minimum percentage tolerance for humidity variations */
-// #define SMS_HUMIDITY_TOLERANCE      1
-// #define SMS_DRY_CALIBRATION_VALUE   644
-// #define SMS_WET_CALIBRATION_VALUE   283
+/****************************** SMS ******************************/
+/* Minimum percentage tolerance for humidity variations */
+#define SMS_HUMIDITY_TOLERANCE      1
+#define SMS_DRY_CALIBRATION_VALUE   492
+#define SMS_WET_CALIBRATION_VALUE   283
 
 /************************* OLED DISPLAY **************************/
 /* Screen dimensions */
@@ -61,6 +64,7 @@
 #define IDLE_STATE                  0
 #define FACE_STATE                  1
 #define DEBUG_STATE                 2
+#define CALIBRATION_STATE           3
 
 /************************************* DELAYS *********************************/
 #define DELAY_INIT_SCREEN           2000

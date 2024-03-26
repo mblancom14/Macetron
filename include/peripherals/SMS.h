@@ -1,14 +1,11 @@
-#ifndef OLED_H
-#define OLED_H
+#ifndef SMS_H
+#define SMS_H
 
 /***************************************************************************************************
 *                                        IMPORTED MODULES                                          *
 ***************************************************************************************************/
-#include <Wire.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1306.h>
-
 #include "..\include\config\mainConfig.h"
+
 /***************************************************************************************************
 *                                     DEFINITIONS AND MACROS                                       *
 ***************************************************************************************************/
@@ -24,16 +21,30 @@
 /***************************************************************************************************
 *                                       CLASS DECLARATIONS                                         *
 ***************************************************************************************************/
-class OLED : public Adafruit_SSD1306 {
+/*!
+ *  \class      SMS
+ *
+ *  \brief      Class that stores state and functions of the Soil Moisture Sensor
+ */
+class SMS {
 public:
-    OLED (uint8_t width, uint8_t height) : Adafruit_SSD1306 (width, height, &Wire, OLED_RESET) {}
+    SMS (uint8_t pin, uint16_t dryValue, uint16_t wetValue)
+    {
+        _pin = pin;
+        _dry = dryValue;
+        _wet = wetValue;
 
-    void startConfig (void);
-    void displayInit(void);
-    void displayMoistureTemperatureHumidity (uint16_t moisture, float temperature, float humidity);
-    void displayMoistureCalibration (uint16_t moisture, int analogRead);
+        /* Begin SMS configuration */
+        begin ();
+    }
+
+    void begin (void);
+    uint16_t getMoisture (void);
+    int SMS::getAnalogRead (void);
+
 private:
-
+    uint8_t _pin;
+    uint16_t _wet, _dry, _moisture;
 };
 
-#endif /* OLED_H */
+#endif /* SMS_H */

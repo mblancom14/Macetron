@@ -4,6 +4,7 @@
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 
+#include "..\include\peripherals\SMS.h"
 #include "..\include\peripherals\OLED.h"
 #include "..\include\config\mainConfig.h"
 #include "..\include\peripherals\DHT22s.h"
@@ -18,6 +19,7 @@
 ***************************************************************************************************/
 DHT22S sensorDHT (PIN_DATA_DHT22);
 OLED oled(OLED_WIDTH, OLED_HEIGHT);
+SMS sms (PIN_DATA_SMS, SMS_DRY_CALIBRATION_VALUE, SMS_WET_CALIBRATION_VALUE);
 
 /***************************************************************************************************
 *                                          FUNCTIONS                                               *
@@ -41,19 +43,28 @@ void StateMachine::processStateMachine (void) {
     {
         case IDLE_STATE:
             oled.startConfig ();
-
             oled.displayInit();
             delay(DELAY_INIT_SCREEN);
 
-            // _updateState(FACE_STATE);    /* Change state to FACE_STATE */
-            _updateState(DEBUG_STATE);   //TODO Debug (Usar el de arriba)
+#ifdef NORMAL_MODE
+            _updateState(FACE_STATE);    /* Change state to FACE_STATE */
+#elif DEBUG_MODE
+            _updateState(DEBUG_STATE);
+#else /* CALIBRATION_MODE */
+            _updateState(CALIBRATION_STATE);
+
+#endif
         break;
         case FACE_STATE:
 
         break;
         case DEBUG_STATE:
-            oled.displayMoistureTemperatureHumidiy(sensorDHT.getTemperature(), 
-                                                   sensorDHT.getHumidity());
+            oled.displayMoistureTemperatureHumidity(sms.getMoisture(), 
+                                                    sensorDHT.getTemperature(), 
+                                                    sensorDHT.getHumidity());
+        break;
+        case CALIBRATION_STATE:
+            oled.displayMoistureCalibration(sms.getMoisture(), sms.getAnalogRead());
         break;
         default:
             _updateState(IDLE_STATE);
