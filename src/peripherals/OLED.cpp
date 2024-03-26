@@ -21,8 +21,8 @@ void OLED::startConfig (void) {
     Adafruit_SSD1306::clearDisplay ();
 }
 
-/* Display in the screen the Moisture %, the temperature ºC and humidity % */
-void OLED::displayInit (void) {
+/* Display in the screen the name of the project */
+void OLED::displayInitScreen (void) {
     clearDisplay();
 
     setTextSize(5);
@@ -83,7 +83,7 @@ void OLED::displayMoistureTemperatureHumidity (uint16_t moisture, float temperat
     display();
 }
 
-/* TODO */
+/* Display in the screen the Moisture calibration: moisture in % and analogRead of that moisture */
 void OLED::displayMoistureCalibration (uint16_t moisture, int analogRead) {
     clearDisplay();
 
@@ -97,6 +97,19 @@ void OLED::displayMoistureCalibration (uint16_t moisture, int analogRead) {
     print("AnalogRead: ");
     print(analogRead);
     print("\n");
+
+    display();
+}
+
+/* Display in the screen Calibration Mode */
+void OLED::displayMoistureCalibrationInitScreen (void) {
+    clearDisplay();
+
+    setTextSize(2);
+    setCursor(0, 10);
+    print("Mode\n");
+    setTextSize(1);
+    print("Calibration");
 
     display();
 }

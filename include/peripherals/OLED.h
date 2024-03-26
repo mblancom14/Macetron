@@ -29,9 +29,10 @@ public:
     OLED (uint8_t width, uint8_t height) : Adafruit_SSD1306 (width, height, &Wire, OLED_RESET) {}
 
     void startConfig (void);
-    void displayInit(void);
+    void displayInitScreen(void);
     void displayMoistureTemperatureHumidity (uint16_t moisture, float temperature, float humidity);
     void displayMoistureCalibration (uint16_t moisture, int analogRead);
+    void displayMoistureCalibrationInitScreen (void);
 private:
 
 };

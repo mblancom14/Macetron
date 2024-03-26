@@ -68,5 +68,6 @@
 
 /************************************* DELAYS *********************************/
 #define DELAY_INIT_SCREEN           2000
+#define DELAY_CALIBRATION_SCREEN    1000
 
 #endif /* MAIN_CONFIG_H */

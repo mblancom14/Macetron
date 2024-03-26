@@ -43,20 +43,21 @@ void StateMachine::processStateMachine (void) {
     {
         case IDLE_STATE:
             oled.startConfig ();
-            oled.displayInit();
+            oled.displayInitScreen();
             delay(DELAY_INIT_SCREEN);
 
-#ifdef NORMAL_MODE
+#if defined(NORMAL_MODE)
             _updateState(FACE_STATE);    /* Change state to FACE_STATE */
-#elif DEBUG_MODE
+#elif defined (DEBUG_MODE)
             _updateState(DEBUG_STATE);
-#else /* CALIBRATION_MODE */
+#elif defined (CALIBRATION_MODE)
+            oled.displayMoistureCalibrationInitScreen();
+            delay(DELAY_INIT_SCREEN);
             _updateState(CALIBRATION_STATE);
-
 #endif
         break;
         case FACE_STATE:
-
+            //TODO
         break;
         case DEBUG_STATE:
             oled.displayMoistureTemperatureHumidity(sms.getMoisture(), 
