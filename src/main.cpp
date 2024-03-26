@@ -20,8 +20,6 @@ StateMachine sm;
 ***************************************************************************************************/
 
 void setup(void) {
-    pinMode(LED_BUILTIN, OUTPUT);
-
     sm.begin();
 }
 
