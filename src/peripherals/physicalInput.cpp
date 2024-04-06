@@ -1,10 +1,9 @@
-#ifndef STATE_MACHINE_H
-#define STATE_MACHINE_H
-
 /***************************************************************************************************
 *                                        IMPORTED MODULES                                          *
 ***************************************************************************************************/
-#include <Arduino.h>
+#include "..\include\config\mainConfig.h"
+#include "..\include\peripherals\physicalInput.h"
+#include "..\include\dataProcessing\stateMachine.h"
 
 /***************************************************************************************************
 *                                     DEFINITIONS AND MACROS                                       *
@@ -15,22 +14,35 @@
 ***************************************************************************************************/
 
 /***************************************************************************************************
-*                                       GLOBAL PARAMETERS                                          *
+*                                             GLOBAL                                               *
 ***************************************************************************************************/
+extern StateMachine sm;
+OneButton *button;
 
 /***************************************************************************************************
-*                                       CLASS DECLARATIONS                                         *
+*                                          FUNCTIONS                                               *
 ***************************************************************************************************/
-class StateMachine {
-public:
-    void begin (void);
-    void updateInput(uint8_t input);
-    void processStateMachine(void);
+void buttonLongClick () {
+    sm.updateInput(BUTTON_LONG_CLICK);
+}
 
-private:
-    void _restartInput (void);
-    void _updateState (uint8_t newState);
-    uint8_t _state, _lastState, _input;
-};
+void buttonClick () {
+    /* Not implemented */
+}
 
-#endif /* STATE_MACHINE_H */
+void buttonDoubleClick () {
+    /* Not implemented */
+}
+
+/* Constructor */
+PhysicalInput::PhysicalInput (int buttonPin) {
+    button = new OneButton(buttonPin, true, true);
+    button->attachLongPressStart(buttonLongClick);
+    button->attachClick(buttonClick);
+    button->attachDoubleClick(buttonDoubleClick);
+}
+
+/* Read the physical inputs */
+void PhysicalInput::read (void) {
+    button->tick();
+}

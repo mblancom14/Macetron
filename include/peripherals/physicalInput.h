@@ -1,10 +1,9 @@
-#ifndef STATE_MACHINE_H
-#define STATE_MACHINE_H
-
+#ifndef PHYSICAL_INPUT_H
+#define PHYSICAL_INPUT_H
 /***************************************************************************************************
 *                                        IMPORTED MODULES                                          *
 ***************************************************************************************************/
-#include <Arduino.h>
+#include "OneButton.h"
 
 /***************************************************************************************************
 *                                     DEFINITIONS AND MACROS                                       *
@@ -15,22 +14,21 @@
 ***************************************************************************************************/
 
 /***************************************************************************************************
-*                                       GLOBAL PARAMETERS                                          *
+*                                             GLOBAL                                               *
 ***************************************************************************************************/
 
 /***************************************************************************************************
-*                                       CLASS DECLARATIONS                                         *
+*                                      FUNCTIONS PROTOTYPES                                        *
 ***************************************************************************************************/
-class StateMachine {
+
+class PhysicalInput {
 public:
-    void begin (void);
-    void updateInput(uint8_t input);
-    void processStateMachine(void);
+    PhysicalInput (int buttonPin);
+    void read (void);
+    int getInputButton (void);
+    void setInputButton (int);
 
 private:
-    void _restartInput (void);
-    void _updateState (uint8_t newState);
-    uint8_t _state, _lastState, _input;
 };
 
-#endif /* STATE_MACHINE_H */
+#endif /* PHYSICAL_INPUT_H */

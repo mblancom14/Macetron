@@ -18,13 +18,18 @@ StateMachine sm;
 /***************************************************************************************************
 *                                          FUNCTIONS                                               *
 ***************************************************************************************************/
+#define BUTTON_PIN 7
+int prev_button_state = LOW;  // The previous state from the input pin
+int button_state;
+const int ledPin = 13;    // the number of the LED pin
 
 void setup(void) {
+    DEBUG_SERIAL_BEGIN(9600);
     sm.begin();
 }
 
 void loop() {
     sm.processStateMachine();
 
-    delay (1000);
+    delay (200);
 }

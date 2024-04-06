@@ -30,6 +30,10 @@ public:
 
     void startConfig (void);
     void displayInitScreen(void);
+    void displayValuesInitScreen(void);
+    void displayFrontScreen (uint16_t moisture, float temperature, float humidity);
+    void displaySadPlantScreen(void);
+    void displayHappyPlantScreen(void);
     void displayMoistureTemperatureHumidity (uint16_t moisture, float temperature, float humidity);
     void displayMoistureCalibration (uint16_t moisture, int analogRead);
     void displayMoistureCalibrationInitScreen (void);
